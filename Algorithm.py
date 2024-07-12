@@ -22,11 +22,10 @@ import cv2
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense
 from tensorflow.keras import Sequential
 
-
-
 accuracy = 0
+
 for _ in range(5):
-    images_path = "C:\\Users\\Anirudh\\Documents\\GitHub\\FractureDetection\\Bone_Fracture_Binary_Classification\\Bone_Fracture_Binary_Classification\\train" # add path here
+    images_path = r"C:\Users\Anirudh\Documents\GitHub\FractureDetection\Bone_Fracture_Binary_Classification\Bone_Fracture_Binary_Classification\train"  # add path here
     img_labels = ['Fractured', 'Not Fractured']
 
     def get_data(input_string):
@@ -37,10 +36,13 @@ for _ in range(5):
         for img in os.listdir(path):
             try:
                 img_arr = cv2.imread(os.path.join(path, img), cv2.IMREAD_COLOR)
-                resized = cv2.resize(img_arr, (145, 145))
+                if img_arr is None:
+                    print(f"Failed to read {os.path.join(path, img)}")
+                    continue
+                resized = cv2.resize(img_arr, (224, 224))
                 data.append([resized, label])
             except Exception as e:
-                print(f"Error {e}")
+                print(f"Error reading {os.path.join(path, img)}: {e}")
 
         return data
 
@@ -53,7 +55,7 @@ for _ in range(5):
     X_train = X_train / 255.0
     X_test = X_test / 255.0
 
-    model = Sequential([ # Can change this if u want
+    model = Sequential([
         Conv2D(256, (3, 3), activation='relu', input_shape=(145, 145, 3)),
         MaxPooling2D(2, 2),
 
@@ -73,7 +75,7 @@ for _ in range(5):
         Dense(2, activation='softmax')
     ])
 
-    model.compile(optimizer='adam',loss='sparse_categorical_crossentropy',metrics=['accuracy'])
+    model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
     model.summary()
 
@@ -83,6 +85,4 @@ for _ in range(5):
     print(f"Test Accuracy: {test_acc}")
 
     if test_acc > accuracy:
-        model.save() # add directory here to save model
-
-
+        model.save()
