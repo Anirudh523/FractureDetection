@@ -20,12 +20,13 @@ import numpy as np
 import os
 import cv2
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense
-from tensorflow.keras.models import Sequential
+from tensorflow.keras import Sequential
+
 
 
 accuracy = 0
 for _ in range(5):
-    images_path = "" # add path here
+    images_path = "C:\\Users\\Anirudh\\Documents\\GitHub\\FractureDetection\\Bone_Fracture_Binary_Classification\\Bone_Fracture_Binary_Classification\\train" # add path here
     img_labels = ['Fractured', 'Not Fractured']
 
     def get_data(input_string):
