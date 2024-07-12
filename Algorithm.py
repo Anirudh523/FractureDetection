@@ -24,7 +24,8 @@ from tensorflow.keras import Sequential
 
 accuracy = 0
 
-for _ in range(5):
+for i in range(5):
+    print(f"Iteration {i+1}")
     images_path = r"C:\Users\Anirudh\Documents\GitHub\FractureDetection\Bone_Fracture_Binary_Classification\Bone_Fracture_Binary_Classification\train"  # add path here
     img_labels = ['Fractured', 'Not Fractured']
 
